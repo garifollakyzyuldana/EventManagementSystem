@@ -1,22 +1,36 @@
 package eventmanagement;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        EventManager manager = new EventManager();
 
         Event event1 = new Event("OOP lesson", "18.12.2025", "AITU");
         Event event2 = new Event("New Year Festival", "26.12.2025", "AITU");
 
-        Participant p1 = new Participant("Uldana", 17);
-        Participant p2 = new Participant("Aliya", 18);
+        manager.addEvent(event1);
+        manager.addEvent(event2);
 
-        EventManager manager = new EventManager();
+        manager.showEvents();
 
-        manager.registerParticipant(event1, p1);
-        manager.registerParticipant(event2, p2);
+        System.out.print("Enter participant name ");
+        String name = scanner.nextLine();
 
-        System.out.println(event1.getEventName());
-        System.out.println(p1.getName());
+        System.out.print("Enter participant age ");
+        int age = scanner.nextInt();
 
-        System.out.println(p1.getAge() > p2.getAge());
+        Participant participant = new Participant(name, age);
+        manager.registerParticipant(event1, participant);
+
+        Person person = participant;
+        System.out.println("Role " + person.getRole());
+
+        System.out.println("Search result ");
+        System.out.println(manager.searchByName("OOP lesson"));
+
+        manager.sortByName();
+        System.out.println("Sorted events ");
+        manager.showEvents();
     }
 }
