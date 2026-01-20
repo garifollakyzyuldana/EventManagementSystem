@@ -26,6 +26,7 @@ public class Event {
     public String toString() {
         return "Event:" + eventname + date + location;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

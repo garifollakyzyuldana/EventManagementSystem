@@ -1,5 +1,8 @@
 package eventmanagement;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,5 +35,29 @@ public class Main {
         manager.sortByName();
         System.out.println("Sorted events ");
         manager.showEvents();
+
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement st = conn.createStatement()) {
+
+            st.executeUpdate("INSERT INTO events VALUES ('OOP Lesson', '18.12.2025', 'AITU')");
+            st.executeUpdate("INSERT INTO events VALUES ('New Year Festival', '26.12.2025', 'AITU')");
+
+            ResultSet rs = st.executeQuery("SELECT * FROM events");
+            System.out.println("Events from database:");
+            while (rs.next()) {
+                System.out.println(
+                        rs.getString("eventname") + " " +
+                                rs.getString("date") + " " +
+                                rs.getString("location")
+                );
+            }
+
+            st.executeUpdate("UPDATE events SET location='Astana' WHERE eventname='New Year Festival'");
+            st.executeUpdate("DELETE FROM events WHERE eventname='OOP Lesson'");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
